@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quero mudar o tier do aluno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F5F8; --surface:#FFFFFF; --ink:#16233F; --muted:#5A6478; --line:#D5DAE3;
+  --inc:#1F7A6B; --inc-bg:#DCEFEA; --pad:#6B7488; --pad-bg:#E7EAF0;
+  --cui:#B23A33; --cui-bg:#F7E0DD; --amber:#9A6A08; --amber-bg:#FBEFD3; --blue:#2F5DA8; --blue-bg:#E1E9F6;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1626; --surface:#18223A; --ink:#E8ECF4; --muted:#A3ADC2; --line:#2E3A55;
+    --inc:#5FC7B2; --inc-bg:#173A36; --pad:#A3ADC2; --pad-bg:#25304A;
+    --cui:#F08A80; --cui-bg:#43211F; --amber:#F2BE52; --amber-bg:#3F3216; --blue:#8DB0EE; --blue-bg:#1E2D4D; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1626; --surface:#18223A; --ink:#E8ECF4; --muted:#A3ADC2; --line:#2E3A55;
+  --inc:#5FC7B2; --inc-bg:#173A36; --pad:#A3ADC2; --pad-bg:#25304A;
+  --cui:#F08A80; --cui-bg:#43211F; --amber:#F2BE52; --amber-bg:#3F3216; --blue:#8DB0EE; --blue-bg:#1E2D4D; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{min-height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.5;display:flex;align-items:center;justify-content:center}
+.card{width:min(560px,100% - 32px);background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:30px 30px 26px;min-height:440px;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;min-height:28px}
+.dots{display:flex;gap:6px}
+.dots i{width:28px;height:5px;border-radius:3px;background:var(--line)}
+.dots i.on{background:var(--ink)}
+button.back{font:inherit;font-size:.92rem;background:none;border:0;color:var(--muted);cursor:pointer;padding:4px 0}
+button.back:hover{color:var(--ink)}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.75rem;line-height:1.15;margin:0 0 20px}
+.opts{display:flex;flex-direction:column;gap:9px}
+button.opt{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid transparent;border-radius:11px;padding:13px 16px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px}
+button.opt:hover{border-color:var(--ink)}
+button.opt[disabled]{opacity:.3;cursor:not-allowed;border-color:transparent}
+.tag{width:11px;height:11px;border-radius:50%;flex:none}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.screen{animation:in .18s ease-out}
+@keyframes in{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}}
+.path{color:var(--muted);font-size:.92rem;margin:0 0 10px}
+body{padding:16px 0}
+.lead{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;font-size:1.35rem;line-height:1.2;margin:0 0 16px}
+.cond{background:var(--paper);border-left:4px solid var(--pad);border-radius:0 11px 11px 0;padding:12px 16px;margin-bottom:10px}
+.cond.go{border-left-color:var(--inc)}
+.cond .if{font-weight:700;margin:0 0 4px}
+.cond p{margin:0}
+.foot{color:var(--muted);font-size:.93rem;margin:6px 0 18px}
+.card.wide{width:min(860px,100% - 32px)}
+.intro .sub{color:var(--muted);margin:-8px 0 22px;max-width:60ch}
+.flow{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch}
+.src{background:var(--paper);border-radius:14px;padding:16px 16px 10px;border-top:5px solid var(--blue)}
+.src-h{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.12rem;margin-bottom:2px}
+.src-s{color:var(--muted);font-size:.85rem;margin-bottom:10px}
+.lvls{list-style:none;margin:0;padding:0}
+.lvls li{display:grid;grid-template-columns:62px 1fr;gap:10px;align-items:start;font-size:.9rem;line-height:1.35;padding:7px 0;border-top:1px solid var(--line)}
+.lv{display:inline-block;text-align:center;font-weight:700;font-size:.8rem;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.l-a{background:var(--inc);color:var(--surface)}
+.l-b{background:var(--inc-bg);color:var(--inc)}
+.l-m{background:var(--pad-bg);color:var(--pad)}
+.l-x{background:var(--cui);color:var(--surface)}
+.plus{align-self:center;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.8rem;color:var(--muted)}
+.join{display:flex;flex-direction:column;align-items:center;margin:10px 0 12px;color:var(--muted);font-size:.88rem;font-weight:700}
+.join svg{display:block;margin-top:4px}
+.out{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.col{border-radius:14px;padding:14px 16px}
+.col.inc{background:var(--inc-bg)}
+.col.cui{background:var(--cui-bg)}
+.col h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.05rem;margin:0 0 10px}
+.col.inc h3{color:var(--inc)}
+.col.cui h3{color:var(--cui)}
+.rec{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start;padding:8px 0;border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent);font-size:.9rem;line-height:1.7}
+.tb{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.05rem;border-radius:8px;text-align:center;padding:3px 0;background:var(--surface)}
+.col.inc .tb{color:var(--inc)}
+.col.cui .tb{color:var(--cui)}
+.or{color:var(--muted);font-size:.82rem}
+.col .l-b,.col .l-m{background:var(--surface)}
+.rest{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center;background:var(--paper);border-radius:14px;padding:12px 16px;margin-top:12px;font-size:.92rem}
+.rest .tb{color:var(--pad)}
+.key{margin:16px 0 18px;padding:12px 16px;border-left:4px solid var(--amber);background:var(--amber-bg);border-radius:0 11px 11px 0;font-size:.95rem}
+@media (max-width:680px){.flow{grid-template-columns:1fr}.plus{justify-self:center}.out{grid-template-columns:1fr}}
+.verdict{border-radius:12px;padding:16px 18px;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;font-size:1.35rem;line-height:1.2;margin-bottom:18px}
+.v-red{background:var(--cui-bg);color:var(--cui)}
+.v-green{background:var(--inc-bg);color:var(--inc)}
+.v-amber{background:var(--amber-bg);color:var(--amber)}
+.v-blue{background:var(--blue-bg);color:var(--blue)}
+.why{margin:0 0 16px}
+.k{font-size:.85rem;color:var(--muted);margin:0 0 3px;font-weight:700}
+.block{margin-bottom:14px}
+.block p{margin:0}
+button.restart{margin-top:auto;font:inherit;font-weight:700;background:var(--ink);color:var(--paper);border:0;border-radius:11px;padding:13px;cursor:pointer}
+.intro p{color:var(--muted);margin:0 0 24px}
+button.start{font:inherit;font-weight:700;background:var(--ink);color:var(--paper);border:0;border-radius:11px;padding:14px;cursor:pointer;margin-top:auto}
+.rule{background:var(--paper);border-radius:11px;padding:14px 16px;margin-bottom:22px}
+</style>
+</head>
+<body>
+<div class="card" id="app" aria-live="polite"></div>
+<script>
+const TIERS=[
+ {id:"3I",label:"3i",c:"var(--inc)"},
+ {id:"2I",label:"2i",c:"var(--inc)"},
+ {id:"1",label:"1 (Padrão)",c:"var(--pad)"},
+ {id:"2C",label:"2C Perfil/Acadêmico",c:"var(--cui)"},
+ {id:"3C",label:"3C Perfil/Acadêmico",c:"var(--cui)"}
+];
+const NAME=Object.fromEntries(TIERS.map(t=>[t.id,t.label]));
+const RANK={"3I":2,"2I":1,"1":0,"2C":-1,"3C":-2};
+const NEED={
+ "3I":"Acadêmico Excelência + Competências Excelência",
+ "2I":"Acadêmico Excelência + Competências Potencial, ou Acadêmico Potencial + Competências Excelência",
+ "1":"Qualquer combinação que não seja de incentivo nem de cuidado",
+ "2C":"Acadêmico Baixa + Competências Padrão, ou Acadêmico Padrão + Competências Baixa",
+ "3C":"Acadêmico Baixa + Competências Baixa"
+};
+const REASONS=[
+ {id:"notas",label:"Acadêmico"},
+ {id:"comp",label:"Competências de sucesso"},
+ {id:"outra",label:"Psicossocial ou orientação de carreira"}
+];
+const st={step:0,cur:null,tgt:null,why:null};
+const app=document.getElementById("app");
+
+function bar(){
+  const d=[1,2,3].map(i=>`<i class="${st.step>=i?"on":""}"></i>`).join("");
+  return `<div class="bar">${st.step>0?`<button class="back" onclick="back()">‹ Voltar</button>`:"<span></span>"}<div class="dots">${d}</div></div>`;
+}
+function back(){if(st.step===4)st.why=null;else if(st.step===3)st.tgt=null;else if(st.step===2)st.cur=null;st.step--;draw()}
+function pick(k,v){st[k]=v;st.step++;draw()}
+function opts(list,key,disabled){
+  return `<div class="opts">${list.map(o=>`<button class="opt" ${o.id===disabled?"disabled":""} onclick="pick('${key}','${o.id}')">${o.c?`<span class="tag" style="background:${o.c}"></span>`:""}${o.label}</button>`).join("")}</div>`;
+}
+const Z=["E","P","D","B"];
+const MX={E:{E:"3I",P:"2I",D:"1",B:"1"},P:{E:"2I",P:"1",D:"1",B:"1"},D:{E:"1",P:"1",D:"1",B:"2C"},B:{E:"1",P:"1",D:"2C",B:"3C"}};
+const ACAD={E:"nenhuma nota abaixo da média e pelo menos 80% das disciplinas com nota 1 ponto ou mais acima da média",
+ P:"nenhuma nota abaixo da média e de 60% a 79% das disciplinas com nota 1 ponto ou mais acima da média",
+ D:"alguma nota abaixo da média (ou menos de 60% das disciplinas 1 ponto acima), mas menos de 2 disciplinas com nota 2 pontos ou mais abaixo da média",
+ B:"2 ou mais disciplinas com nota 2 pontos ou mais abaixo da média",
+ EP:"nenhuma nota abaixo da média e pelo menos 60% das disciplinas com nota 1 ponto ou mais acima da média",
+ DB:"alguma nota abaixo da média, ou menos de 60% das disciplinas com nota 1 ponto ou mais acima da média",
+ PDB:"alguma nota abaixo da média, ou menos de 80% das disciplinas com nota 1 ponto ou mais acima da média",
+ EPD:"menos de 2 disciplinas com nota 2 pontos ou mais abaixo da média",
+ EPDB:"qualquer situação de notas"};
+const COMP={E:"31 pontos ou mais (2ª e 3ª série: 35 ou mais)",P:"de 26 a 30 pontos (2ª e 3ª série: de 30 a 34)",
+ D:"de 20 a 25 pontos (2ª e 3ª série: de 20 a 29)",B:"19 pontos ou menos",
+ EP:"26 pontos ou mais (2ª e 3ª série: 30 ou mais)",DB:"25 pontos ou menos (2ª e 3ª série: 29 ou menos)",
+ PDB:"30 pontos ou menos (2ª e 3ª série: 34 ou menos)",EPD:"20 pontos ou mais",PD:"de 20 a 30 pontos (2ª e 3ª série: de 20 a 34)",EPDB:"qualquer pontuação"};
+const zkey=s=>Z.filter(z=>s.includes(z)).join("");
+function conds(cur,tgt,lookComp){
+  const cell=(x,y)=>lookComp?MX[y][x]:MX[x][y];
+  const look=Z.filter(x=>Z.some(y=>cell(x,y)===cur));
+  const g={};
+  look.forEach(x=>{const need=zkey(Z.filter(y=>cell(x,y)===tgt));(g[need]=g[need]||[]).push(x)});
+  return Object.entries(g).map(([need,xs])=>({look:zkey(xs),need}));
+}
+function result(){
+  const C=NAME[st.cur],T=NAME[st.tgt];
+  let lead,cards="",foot="";
+  if(st.why==="notas"){
+    lead="Olhe também o questionário de competências deste mês";
+    foot="Se as notas do portal estão desatualizadas, use as notas reais do aluno. Você pode alterar o tier manualmente, desde que a combinação com o questionário leve ao tier escolhido.";
+    cards=conds(st.cur,st.tgt,true).map(g=>g.need
+      ?`<div class="cond go"><p class="if">Se o questionário somou ${COMP[g.look]}</p><p>A mudança para ${T} faz sentido se as notas reais tiverem ${ACAD[g.need]}. Se o portal ainda não mostra essas notas, altere o tier manualmente e registre na justificativa as notas que embasam a mudança.</p></div>`
+      :`<div class="cond"><p class="if">Se o questionário somou ${COMP[g.look]}</p><p>Mantenha ${C}, mesmo que as notas reais sejam diferentes das do portal. Com esse questionário, as notas não levam o aluno a ${T}. Registre sua observação sobre as notas na justificativa.</p></div>`).join("");
+  }else if(st.why==="comp"){
+    lead="Olhe também as notas do aluno";
+    foot="Considere as notas reais do aluno, mesmo que o portal ainda não esteja atualizado.";
+    cards=conds(st.cur,st.tgt,false).map(g=>g.need
+      ?`<div class="cond go"><p class="if">Se o aluno tem ${ACAD[g.look]}</p><p>A mudança para ${T} faz sentido se o questionário somar ${COMP[g.need]}. Nesse caso, revise as respostas do questionário com base no que você observou este mês. O tier se ajusta sozinho.</p></div>`
+      :`<div class="cond"><p class="if">Se o aluno tem ${ACAD[g.look]}</p><p>Mantenha ${C}. Com essas notas, o questionário não leva o aluno a ${T}. Registre sua observação na justificativa.</p></div>`).join("");
+  }else{
+    lead="Registre na camada de cuidado certa";
+    cards=`<div class="cond go"><p class="if">Se a questão é emocional, familiar ou de saúde</p><p>Registre em 2C ou 3C Psico, seguindo os critérios do Hub Psicossocial.</p></div>
+    <div class="cond go"><p class="if">Se a questão é de escolha de carreira ou estratégia de vestibular</p><p>Registre em 2C ou 3C Orientação Profissional, seguindo os critérios do Hub de Carreiras.</p></div>`;
+    foot=`Nos dois casos, mantenha ${C} como tier Perfil/Acadêmico.${(st.cur==="2I"||st.cur==="3I")?" O incentivo continua valendo junto com o cuidado.":""}`;
+  }
+  const top=st.why!=="outra"&&foot;
+  return `<div class="screen"><p class="path">De ${C} para ${T}</p>
+  <p class="lead">${lead}</p>${top?`<p class="foot">${foot}</p>`:""}${cards}${!top&&foot?`<p class="foot">${foot}</p>`:""}
+  </div><button class="restart" onclick="restart()">Analisar outro aluno</button>`;
+}
+function restart(){st.step=0;st.cur=st.tgt=st.why=null;draw()}
+function draw(){
+  let h="";
+  if(st.step===0){
+    const L=(c,t)=>`<span class="lv ${c}">${t}</span>`;
+    const A=L("l-a","Alto"),Bo=L("l-b","Bom"),Me=L("l-m","Médio"),Ba=L("l-x","Baixo");
+    h=`<div class="screen intro"><h1>Quero mudar o tier do aluno</h1>
+    <p class="sub">Antes de mudar, veja o que define os tiers de incentivo e de cuidado Perfil/Acadêmico.</p>
+    <div class="flow">
+      <div class="src"><div class="src-h">Notas do aluno</div><div class="src-s">Comparadas com a média de cada disciplina</div>
+        <ul class="lvls">
+        <li>${A}<span>Nenhuma nota abaixo da média e 80% ou mais das disciplinas 1 ponto acima</span></li>
+        <li>${Bo}<span>Nenhuma nota abaixo da média e de 60% a 79% das disciplinas 1 ponto acima</span></li>
+        <li>${Me}<span>Qualquer outra situação</span></li>
+        <li>${Ba}<span>2 ou mais disciplinas com nota 2 pontos ou mais abaixo da média</span></li></ul></div>
+      <div class="plus" aria-hidden="true">+</div>
+      <div class="src"><div class="src-h">Questionário de competências</div><div class="src-s">Soma das 10 perguntas, de 10 a 40 pontos</div>
+        <ul class="lvls">
+        <li>${A}<span>31 pontos ou mais <span class="or">(2ª e 3ª série: 35 ou mais)</span></span></li>
+        <li>${Bo}<span>26 a 30 pontos <span class="or">(2ª e 3ª série: 30 a 34)</span></span></li>
+        <li>${Me}<span>20 a 25 pontos <span class="or">(2ª e 3ª série: 20 a 29)</span></span></li>
+        <li>${Ba}<span>19 pontos ou menos</span></li></ul></div>
+    </div>
+    <div class="join">As duas juntas definem o tier<svg width="22" height="14" viewBox="0 0 22 14" aria-hidden="true"><path d="M2 2l9 9 9-9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="out">
+      <div class="col inc"><h3>Incentivo</h3>
+        <div class="rec"><span class="tb">3i</span><span>Notas ${A} + Questionário ${A}</span></div>
+        <div class="rec"><span class="tb">2i</span><span>Notas ${A} + Questionário ${Bo}<br><span class="or">ou</span> Notas ${Bo} + Questionário ${A}</span></div></div>
+      <div class="col cui"><h3>Cuidado Perfil/Acadêmico</h3>
+        <div class="rec"><span class="tb">3C</span><span>Notas ${Ba} + Questionário ${Ba}</span></div>
+        <div class="rec"><span class="tb">2C</span><span>Notas ${Ba} + Questionário ${Me}<br><span class="or">ou</span> Notas ${Me} + Questionário ${Ba}</span></div></div>
+    </div>
+    <div class="rest"><span class="tb">1</span><span>Qualquer outra combinação, inclusive quando uma das duas está alta e a outra baixa.</span></div>
+    <div class="key">Uma das duas sozinha nunca muda o tier. Psico, Orientação Profissional e Tier 4 seguem critérios próprios.</div>
+    </div>
+    <button class="start" onclick="st.step=1;draw()">Quero mudar mesmo assim</button>`;
+    app.className="card wide";app.innerHTML=h;return;
+  }
+  app.className="card";
+  h=bar();
+  if(st.step===1)h+=`<div class="screen"><h1>Em qual tier o aluno caiu?</h1>${opts(TIERS,"cur")}</div>`;
+  if(st.step===2)h+=`<div class="screen"><h1>Para qual tier você quer levar?</h1>${opts(TIERS,"tgt",st.cur)}</div>`;
+  if(st.step===3)h+=`<div class="screen"><h1>Por qual motivo?</h1>${opts(REASONS,"why")}</div>`;
+  if(st.step===4)h+=result();
+  app.innerHTML=h;
+  const f=app.querySelector("button.opt:not([disabled]),button.restart");if(f&&st.step>0)f.focus({preventScroll:true});
+}
+draw();
+</script>
+</body>
+</html>
